@@ -45,7 +45,7 @@ var Dungeon = {
 		return map_template;
 	},
 	render: function(dungeonMap, target) {
-			var maptable = document.createElement('table');
+			var map_table = document.createElement('table');
 			var map_body = document.createElement('tbody');
 			
 			for(var i = 0; i < dungeonMap.terrain.length; i++) {
@@ -64,7 +64,7 @@ var Dungeon = {
 				}
 				map_body.appendChild(row);
 			}
-			maptable.appendChild(map_body);
-			target.appendChild(maptable);
+			map_table.appendChild(map_body);
+			target.appendChild(map_table);
 	}
 };
