@@ -18,7 +18,7 @@ var myDungeon = Dungeon.createDungeon({
 ```
 This creates a dungeon map in form of a 2D array with the specified with and height.
 The array gets filled with numbers which represent entities like a wall or a floor but also enemies or weapons.
-For now the wall and floor entities are mandatory and are the only one's supported so far. I'm working towards more complex behaviour of the algorithm that can also randomply place items and enemies in rooms.
+For now the wall and floor entities are mandatory and are the only one's supported so far. I'm working towards a more complex behaviour of the algorithm that can also randomly place items and enemies in rooms.
 
 What you do with the data is totally up to you as long as you remember that your map is represented as a 2D array with numbers.
 This example provides you with a render function that visualizes the map. You can implement your own render function if you wish
