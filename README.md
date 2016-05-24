@@ -9,6 +9,7 @@ You can generate a map like this:
 var myDungeon = Dungeon.createDungeon({
   width: 100,
   height: 100,
+  iterations: 4,
   entities: {
     wall: 0,
     floor: 1
@@ -23,7 +24,7 @@ What you do with the data is totally up to you as long as you remember that your
 This example provides you with a render function that visualizes the map. You can implement your own render function if you wish
 
 ```
-Dungeon.render(Mymap.terrain, document.getElementById("map"));
+Dungeon.render(Mymap, document.getElementById("map"));
 ```
 Keep in mind to access the 2D array of your map via the terrain property like: 
 ```
