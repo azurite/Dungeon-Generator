@@ -1,0 +1,15 @@
+table {
+	border-collapse: collapse;
+}
+
+.zero {
+	background-color: #ddd;
+	width: 10px;
+	height: 10px;
+}
+
+.one {
+	background-color: #fff;
+	width: 10px;
+	height: 10px;
+}
