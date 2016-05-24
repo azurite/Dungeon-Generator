@@ -22,13 +22,14 @@
 		var myMap = Dungeon.createDungeon({
 			width: 100,
 			height: 100,
+			iterations: 5,
 			entities: {
 				wall: 0,
 				floor: 1
 			}
 		});
 
-		Dungeon.render(myMap.terrain, document.getElementById("map"));
+		Dungeon.render(myMap, document.getElementById("map"));
 	</script>
 </body>
 </html>
