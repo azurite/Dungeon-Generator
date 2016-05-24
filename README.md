@@ -2,6 +2,8 @@
 
 The Dungeon Generator is a collection of Javascript Modules that allows you to randomly generate dungeons on a map with predefined parameters. The algorithm uses a technique called [Binary Space Partitioning](https://en.wikipedia.org/wiki/Binary_space_partitioning).
 
+Just include all the files from the scripts folder at the end of the body of your html document and you're good to go.
+
 You can generate a map like this: 
 ```
 var myDungeon = Dungeon.createDungeon({
