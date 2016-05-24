@@ -9,9 +9,9 @@ var Dungeon = {
 		return root;
 	},
 	createDungeon: function(obj) {
-		var D_height = obj.height || 100;
-		var D_width = obj.width || 100;
-		var N_iterations = obj.iterations || 4;
+		var D_height = obj.height;
+		var D_width = obj.width;
+		var N_iterations = obj.iterations;
 		var WALL = obj.entities.wall;
 		var FLOOR = obj.entities.floor;
 
@@ -47,17 +47,17 @@ var Dungeon = {
 	render: function(dungeonMap, target) {
 			var maptable = document.createElement('table');
 			var map_body = document.createElement('tbody');
-
-			for(var i = 0; i < dungeonMap.length; i++) {
+			
+			for(var i = 0; i < dungeonMap.terrain.length; i++) {
 				var row = document.createElement('tr');
 
-				for(var j = 0; j < dungeonMap[i].length; j++) {
+				for(var j = 0; j < dungeonMap.terrain[i].length; j++) {
 					var cell = document.createElement('td');
 
-					if(dungeonMap[i][j] === 0) {
+					if(dungeonMap.terrain[i][j] === 0) {
 						cell.classList.add('zero');
 					}
-					if(dungeonMap[i][j] === 1) {
+					if(dungeonMap.terrain[i][j] === 1) {
 						cell.classList.add('one');
 					}
 					row.appendChild(cell);
@@ -68,15 +68,3 @@ var Dungeon = {
 			target.appendChild(maptable);
 	}
 };
-
-/*
-Dungeon.createDungeon({
-	height: 100,
-	width: 100,
-	iterations: 4,
-	entities: {
-		wall: 0,
-		floor: 1
-	}
-});
-*/
