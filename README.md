@@ -38,7 +38,7 @@ What you do with the data is totally up to you as long as you remember how it is
   var MyEntity = terrain[y][x];
   ```
   
-#### 2. Rooms, Corridors and Entities are stores as objects with their coordinates and dimensions.
+#### 2. Rooms, Corridors and Entities are stored as objects with their coordinates and dimensions.
 The map also stores it's information in objects for those who would rather like to work with a canvas or would like to have more possibilities to customize their map.
 
 ``` 
