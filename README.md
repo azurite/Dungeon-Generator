@@ -27,29 +27,30 @@ The wall and floor entity are mandatory. The rest is not requred. You can choose
 
 What you do with the data is totally up to you as long as you remember how it is stored:
 
-## 1. 2D Array of Numbers
+#### 1. 2D Array of Numbers
   When you create e new map you can acces it's data in form of a 2D Array with numbers that represent your entites.
   The 2D Array is stored in the terrain property
   ```
   var levelAsArray = Mymap.terrain;
+  var MyEntity = terrain[y][x];
   ```
   
-## 2. Rooms, Corridors and Entities are stores as objects with their coordinates and dimensions.
+#### 2. Rooms, Corridors and Entities are stores as objects with their coordinates and dimensions.
   The map also stores it's information in objects for those who would rather like to work with a canvas or would like to have more possibilities to customize their map.
   ```
   var myRooms = MyMap.roomlist;
   var myCorridors = MyMap.corridorlist;
   var myEntities = myMap.entitylist;
   ```
-  ### 2.1 The roomlist property contains an array of room objects. A room object has the following properties:
+  ###### 2.1 The roomlist property contains an array of room objects. A room object has the following properties:
   1. ```roomlist[i].x``` and ```roomlist[i].y``` are the coordinates of the upper left corner of a room.
   2. ```roomlist[i].width``` and ```roomlist[i].height``` are the width and height of a room.
   
-  ### 2.2 The corridorlist property contains an array of corridor objects. A corridor has the following properties:
+  ###### 2.2 The corridorlist property contains an array of corridor objects. A corridor has the following properties:
   1. ```corridorlist[i].start``` and ```corridorlist[i].end``` are basically two points that have an x and y coordinate
   2. Access the coordinates like ```corridorlist[i].start.x``` and ```corridorlist[i].start.y```
   
-  ### 2.3 The entityList property contains an array of all entity objects scatterd on the map. It has the following properties:
+  ###### 2.3 The entityList property contains an array of all entity objects scatterd on the map. It has the following properties:
   1. ```entitiylist[i].type``` determines that type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
   ```enemy
      health
