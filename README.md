@@ -63,15 +63,15 @@ These object have properties like:
 
 1. ```entitiylist[i].type``` determines that type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
 
-```
-enemy
-health
-weapon
-nextlvl
-player
-```
+  ```
+  enemy
+  health
+  weapon
+  nextlvl
+  player
+  ```
  
-Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and dont coun't as actual entities.
+  Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and dont coun't as actual entities.
 
 2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals.
 
