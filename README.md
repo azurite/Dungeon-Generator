@@ -83,7 +83,7 @@ At the moment Each type has the following stats:
   4. nextlvl: null
 
 
-This example provides you with a render function that visualizes the map. You can implement your own render function if you wish.
+This example provides you with a render function that visualizes the map. Remember to include the dungeonStyle.css or the prebuilt render function wont display the map correctly. You can implement your own render function if you wish. It is even recommended as the custom one does a pretty minimal job visually and was only intended for testing purposes.
 
 ```
 Dungeon.render(Mymap, document.getElementById("map"));
