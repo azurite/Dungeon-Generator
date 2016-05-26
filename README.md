@@ -22,7 +22,7 @@ var myDungeon = Dungeon.createDungeon({
   }
 });
 ```
-This creates a dungeon map in form of a 2D array with the specified with and height. The number of iterations determines how many times the map gets split. Many iterations equal many small rooms, few iterations equal few big rooms. Try to play with these values to find the optimal dungeon size for you.
+This creates a dungeon map in form of a 2D array with the specified with and height. The number of iterations determines how many times the map get's split. Many iterations equal many small rooms, few iterations equal few big rooms. Try to play with these values to find the optimal dungeon size for you.
 
 The array gets filled with numbers which represent entities like a wall or a floor but also enemies or weapons.
 The wall and floor entity are mandatory. The rest is not requred. You can choose if you want to add a "player", "weapon", "nextlvl" or "enemy" and "health" entity. Note that at this time enemy and health must either be both included or none.
@@ -60,7 +60,7 @@ These object have properties like:
 1. ```corridorlist[i].start``` and ```corridorlist[i].end``` are basically two points that have an x and y coordinate
 2. Access the coordinates like ```corridorlist[i].start.x``` and ```corridorlist[i].start.y```
   
-##### 2.3 The entityList property contains an array of all entity objects scatterd on the map. It has the following properties:
+##### 2.3 The entitylist property contains an array of all entity objects scatterd on the map. It has the following properties:
 
 1. ```entitiylist[i].type``` determines that type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
 
