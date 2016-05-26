@@ -1,4 +1,6 @@
 var Map = function(rows, cols, lists, entityIds) {
+	this.height = rows;
+	this.width = cols;
 	this.floor = entityIds.floor;
 	this.wall = entityIds.wall;
 	this.enemy = entityIds.enemy;

@@ -48,20 +48,13 @@ var Dungeon = {
 		}
 		return true;
 	},
-	createEntities: function(list, room) {
+	createEntities: function(list, room, type) {
 		var e_max = Helper.random(0,1);
 		for(var i = 0; i < e_max; i++) {
 			do {
-				var enemy = new Entity(room, "enemy");
-			} while(!Dungeon.itemPositionIsUnique(list, enemy));
-			list.push(enemy);
-		}
-		var h_max = Helper.random(0,1);
-		for(var j = 0; j < h_max; j++) {
-			do {
-				var health = new Entity(room, "health");
-			} while(!Dungeon.itemPositionIsUnique(list, health));
-			list.push(health);
+				var item = new Entity(room, type);
+			} while(!Dungeon.itemPositionIsUnique(list, item));
+			list.push(item);
 		}
 		return list;
 	},
@@ -101,9 +94,15 @@ var Dungeon = {
 			entities.push(weapon);
 		}
 		
-		if(args.entities.enemy !== undefined && args.entities.health !== undefined) {
+		if(args.entities.enemy !== undefined) {
 			for(var ei = 0; ei < rooms.length; ei++) {
-				Dungeon.createEntities(entities, rooms[ei]);
+				Dungeon.createEntities(entities, rooms[ei], "enemy");
+			}
+		}
+
+		if(args.entities.health !== undefined) {
+			for(var hi = 0; hi < rooms.length; hi++) {
+				Dungeon.createEntities(entities, rooms[hi], "health");
 			}
 		}
 
