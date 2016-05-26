@@ -44,14 +44,17 @@ What you do with the data is totally up to you as long as you remember how it is
   ```
   
   ##### 2.1 The roomlist property contains an array of room objects. A room object has the following properties:
+  
   1. ```roomlist[i].x``` and ```roomlist[i].y``` are the coordinates of the upper left corner of a room.
   2. ```roomlist[i].width``` and ```roomlist[i].height``` are the width and height of a room.
   
   ##### 2.2 The corridorlist property contains an array of corridor objects. A corridor has the following properties:
+
   1. ```corridorlist[i].start``` and ```corridorlist[i].end``` are basically two points that have an x and y coordinate
   2. Access the coordinates like ```corridorlist[i].start.x``` and ```corridorlist[i].start.y```
   
   ##### 2.3 The entityList property contains an array of all entity objects scatterd on the map. It has the following properties:
+
   1. ```entitiylist[i].type``` determines that type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
   ```enemy
      health
