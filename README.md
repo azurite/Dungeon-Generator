@@ -22,7 +22,8 @@ var myDungeon = Dungeon.createDungeon({
   }
 });
 ```
-This creates a dungeon map in form of a 2D array with the specified with and height.
+This creates a dungeon map in form of a 2D array with the specified with and height. The number of iterations determines how many times the map gets split. Many iterations equal many small rooms, few iterations equal few big rooms. Try to play with these values to find the optimal dungeon size for you.
+
 The array gets filled with numbers which represent entities like a wall or a floor but also enemies or weapons.
 The wall and floor entity are mandatory. The rest is not requred. You can choose if you want to add a "player", "weapon", "nextlvl" or "enemy" and "health" entity. Note that at this time enemy and health must either be both included or none.
 
