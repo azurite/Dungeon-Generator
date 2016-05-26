@@ -25,7 +25,7 @@ var myDungeon = Dungeon.createDungeon({
 This creates a dungeon map in form of a 2D array with the specified with and height. The number of iterations determines how many times the map get's split. Many iterations equal many small rooms, few iterations equal few big rooms. Try to play with these values to find the optimal dungeon size for you.
 
 The array gets filled with numbers which represent entities like a wall or a floor but also enemies or weapons.
-The wall and floor entity are mandatory. The rest is not requred. You can choose if you want to add a "player", "weapon", "nextlvl" or "enemy" and "health" entity. Note that at this time enemy and health must either be both included or none.
+The wall and floor entity are mandatory. The rest is not requred and you can add "enemy" "health" "nextlvl" and "weapon" entities if you please.
 
 What you do with the data is totally up to you as long as you remember how it is stored:
 
@@ -78,9 +78,9 @@ These object have properties like:
 
 At the moment Each type has the following stats:
 
-  1. enemy: baseHealth health, attack, toNextLevel
+  1. enemy: baseHealth, health, attack, toNextLevel
   2. health: heal, xp
-  3. weapon: weaponName damage xp
+  3. weapon: weaponName, damage, xp
   4. nextlvl: null
 
 
@@ -90,6 +90,6 @@ The Module provides you with a render function that visualizes the map. Remember
 Dungeon.render(Mymap, document.getElementById("map"));
 ```
 
-If you wan't to make your own render function keep in mind that you can access the entity numbers that you have defined in the constructor via ```myMap.floor, myMap.wall``` etc. 
+If you wan't to make your own render function keep in mind that you can access the entity numbers that you have defined in the constructor via ```myMap.floor, myMap.wall``` etc. You can also access the height and with of the entire map via ```myMap.height, myMap.width```
 
 The algorithm is still a work in progress and updates will be added from time to time. Including a more thorough documentation.
