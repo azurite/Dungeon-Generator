@@ -90,4 +90,6 @@ The Module provides you with a render function that visualizes the map. Remember
 Dungeon.render(Mymap, document.getElementById("map"));
 ```
 
+If you wan't to make your own render function keep in mind that you can access the entity numbers that you have defined in the constructor via ```myMap.floor, myMap.wall``` etc. 
+
 The algorithm is still a work in progress and updates will be added from time to time. Including a more thorough documentation.
