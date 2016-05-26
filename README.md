@@ -42,6 +42,7 @@ What you do with the data is totally up to you as long as you remember how it is
   var myCorridors = MyMap.corridorlist;
   var myEntities = myMap.entitylist;
   ```
+  
   ##### 2.1 The roomlist property contains an array of room objects. A room object has the following properties:
   1. ```roomlist[i].x``` and ```roomlist[i].y``` are the coordinates of the upper left corner of a room.
   2. ```roomlist[i].width``` and ```roomlist[i].height``` are the width and height of a room.
@@ -63,10 +64,10 @@ What you do with the data is totally up to you as long as you remember how it is
   
   At the moment Each type has the following stats:
   
-    1. enemy: ```baseHealth health, attack, toNextLevel```
-    2. health: ```heal, xp```
-    3. weapon: ```weaponName damage xp ```
-    4. nextlvl: ```null```
+    1. enemy: baseHealth health, attack, toNextLevel
+    2. health: heal, xp
+    3. weapon: weaponName damage xp
+    4. nextlvl: null
 
 
 This example provides you with a render function that visualizes the map. You can implement your own render function if you wish.
