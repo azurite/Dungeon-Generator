@@ -7,8 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="dungeonStyle.css"/>
 </head>
 <body>
-	<h1>Dungeon map</h1>
-	<div id="map"></div>
+	<div id="game"></div>
 
 	<script type="text/javascript" src="scripts/Helper.js"></script>
 	<script type="text/javascript" src="scripts/Tree.js"></script>
@@ -16,20 +15,26 @@
 	<script type="text/javascript" src="scripts/Container.js"></script>
 	<script type="text/javascript" src="scripts/Room.js"></script>
 	<script type="text/javascript" src="scripts/Map.js"></script>
+	<script type="text/javascript" src="scripts/Entity.js"></script>
 	<script type="text/javascript" src="scripts/Dungeon.js"></script>
 	<script type="text/javascript">
 		//test code goes here..
 		var myMap = Dungeon.createDungeon({
-			width: 100,
-			height: 100,
-			iterations: 5,
+			width: 80,
+			height: 80,
+			iterations: 4,
 			entities: {
 				wall: 0,
-				floor: 1
+				floor: 1,
+				enemy: 2,
+				health: 3,
+				weapon: 4,
+				nextlvl: 5,
+				player: 6
 			}
 		});
 
-		Dungeon.render(myMap, document.getElementById("map"));
+		Dungeon.render(myMap, document.getElementById("game"));
 	</script>
 </body>
 </html>

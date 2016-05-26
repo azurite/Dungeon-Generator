@@ -2,14 +2,44 @@ table {
 	border-collapse: collapse;
 }
 
-.zero {
-	background-color: #ddd;
+.wall {
+	background-color: #aaa;
 	width: 10px;
 	height: 10px;
 }
 
-.one {
+.floor {
 	background-color: #fff;
+	width: 10px;
+	height: 10px;
+}
+
+.enemy {
+	background-color: #ff0000;
+	width: 10px;
+	height: 10px;
+}
+
+.health {
+	background-color: #00ff00;
+	width: 10px;
+	height: 10px;
+}
+
+.weapon {
+	background-color: #ffff00;
+	width: 10px;
+	height: 10px;
+}
+
+.nextlvl {
+	background-color: #7f00ff;
+	width: 10px;
+	height: 10px;
+}
+
+.player {
+	background-color: #0000ff;
 	width: 10px;
 	height: 10px;
 }
