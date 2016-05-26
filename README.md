@@ -42,8 +42,8 @@ What you do with the data is totally up to you as long as you remember how it is
 The map also stores it's information in objects for those who would rather like to work with a canvas or would like to have more possibilities to customize their map.
 
 ``` 
-var myRooms = MyMap.roomlist;
-var myCorridors = MyMap.corridorlist;
+var myRooms = myMap.roomlist;
+var myCorridors = myMap.corridorlist;
 var myEntities = myMap.entitylist;
 ```
 
