@@ -62,7 +62,7 @@ These object have properties like:
   
 ##### 2.3 The entitylist property contains an array of all entity objects scatterd on the map. It has the following properties:
 
-1. ```entitiylist[i].type``` determines that type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
+1. ```entitiylist[i].type``` determines what type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
 
   ```
   enemy
@@ -72,7 +72,7 @@ These object have properties like:
   player
   ```
  
-  Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and dont coun't as actual entities.
+  Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and don't count as actual entities.
 
 2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals.
 
@@ -84,7 +84,7 @@ At the moment Each type has the following stats:
   4. nextlvl: null
 
 
-This example provides you with a render function that visualizes the map. Remember to include the dungeonStyle.css or the prebuilt render function wont display the map correctly. You can implement your own render function if you wish. It is even recommended as the custom one does a pretty minimal job visually and was only intended for testing purposes.
+The Module provides you with a render function that visualizes the map. Remember to include the dungeonStyle.css or the prebuilt render function wont display the map correctly. You can implement your own render function if you wish. It is even recommended as the custom one does a pretty minimal job visually and was only intended for testing purposes.
 
 ```
 Dungeon.render(Mymap, document.getElementById("map"));
