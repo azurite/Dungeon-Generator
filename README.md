@@ -72,7 +72,7 @@ player
 ```
    
 Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and dont coun't as actual entities.
-   
+
 2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals.
 
 At the moment Each type has the following stats:
@@ -87,10 +87,6 @@ This example provides you with a render function that visualizes the map. You ca
 
 ```
 Dungeon.render(Mymap, document.getElementById("map"));
-```
-Keep in mind to access the 2D array of your map via the terrain property like: 
-```
-var level1 = MyMap.terrain;
 ```
 
 The algorithm is still a work in progress and updates will be added from time to time. Including a more thorough documentation.
