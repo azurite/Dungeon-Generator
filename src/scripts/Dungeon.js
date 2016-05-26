@@ -1,4 +1,36 @@
 var Dungeon = {
+	LEVEL: 0,
+	healthPack: {
+		heal: 100,
+		xp: 2
+	},
+	weaponTypes: [
+		{
+			weaponName: "Brass Knuckles",
+			damage: 7,
+			xp: 5
+		},
+		{
+			weaponName: "Serrated Dagger",
+			damage: 12,
+			xp: 5
+		},
+		{
+			weaponName: "Katana",
+			damage: 16,
+			xp: 5
+		},
+		{
+			weaponName: "Reaper's scythe",
+			damage: 22,
+			xp: 5
+		},
+		{
+			weaponName: "Large Trout",
+			damage: 30,
+			xp: 5
+		}
+	],
 	growTree: function(container, iter) {
 		var root = new Node(container);
 		var subc = container.split();
@@ -8,29 +40,45 @@ var Dungeon = {
 		}
 		return root;
 	},
-	createDungeon: function(obj) {
-		var D_height = obj.height;
-		var D_width = obj.width;
-		var N_iterations = obj.iterations;
-		var WALL = obj.entities.wall;
-		var FLOOR = obj.entities.floor;
+	itemPositionIsUnique: function(base, next) {
+		for(var i in base) {
+			if(base[i].x === next.x && base[i].y === next.y) {
+				return false;
+			}
+		}
+		return true;
+	},
+	createEntities: function(list, room) {
+		var e_max = Helper.random(0,1);
+		for(var i = 0; i < e_max; i++) {
+			do {
+				var enemy = new Entity(room, "enemy");
+			} while(!Dungeon.itemPositionIsUnique(list, enemy));
+			list.push(enemy);
+		}
+		var h_max = Helper.random(0,1);
+		for(var j = 0; j < h_max; j++) {
+			do {
+				var health = new Entity(room, "health");
+			} while(!Dungeon.itemPositionIsUnique(list, health));
+			list.push(health);
+		}
+		return list;
+	},
+	createDungeon: function(args) {
+		if(args.entities.wall === undefined || args.entities.floor === undefined) {
+			throw new Error("Dungeon.createDungeon() entities object must at least hold 'wall' and 'floor' properties");
+		}
 
-		var map_template = new Map(
-				D_height,
-				D_width,
-				{
-					wall: WALL,
-					floor: FLOOR
-				}
-			);
-
-		var root_container = new Container(1,1, D_width - 2, D_height - 2);
-		var containers = Dungeon.growTree(root_container, N_iterations).toArray();
+		var root_container = new Container(1,1, args.width - 2, args.height - 2);
+		var containers = Dungeon.growTree(root_container, args.iterations).toArray();
 		var room_template = containers.slice(containers.length / 2);
+		var corridors = [];
 		var rooms = [];
+		var entities = [];
 
-		for(var ci = 1; ci < containers.length; ci += 2) {
-			map_template.drawLine(containers[ci].center, containers[ci+1].center);
+		for(var cor = 1; cor < containers.length; cor += 2) {
+			corridors.push({ start: containers[cor].center, end: containers[cor+1].center });
 		}
 
 		for(var ri = 0; ri < room_template.length; ri++) {
@@ -38,33 +86,96 @@ var Dungeon = {
 			rooms.push(room);
 		}
 
+		if(args.entities.player !== undefined) {
+			var player = new Entity(rooms[Helper.random(0, rooms.length-1)], "player");
+			entities.push(player);
+		}
+
+		if(args.entities.nextlvl !== undefined) {
+			var exit = new Entity(rooms[0], "nextlvl");
+			entities.push(exit);
+		}
+
+		if(args.entities.weapon !== undefined) {
+			var weapon = new Entity(rooms[rooms.length - 1], "weapon");
+			entities.push(weapon);
+		}
+		
+		if(args.entities.enemy !== undefined && args.entities.health !== undefined) {
+			for(var ei = 0; ei < rooms.length; ei++) {
+				Dungeon.createEntities(entities, rooms[ei]);
+			}
+		}
+
+		var map_template = new Map(
+				args.height,
+				args.width,
+				{
+					roomlist: rooms,
+					corridorlist: corridors,
+					entitylist: entities
+				},
+				{
+					wall: args.entities.wall,
+					floor: args.entities.floor,
+					enemy: args.entities.enemy !== undefined ? args.entities.enemy : null,
+					health: args.entities.health !== undefined ? args.entities.health : null,
+					weapon: args.entities.weapon !== undefined ? args.entities.weapon : null,
+					nextlvl: args.entities.nextlvl !== undefined ? args.entities.nextlvl : null,
+					player: args.entities.player !== undefined ? args.entities.player : null
+				}
+			);
+
+		for(var c_nr = 0; c_nr < corridors.length; c_nr++) {
+			map_template.drawCorridor(corridors[c_nr].start, corridors[c_nr].end);
+		}
+
 		for(var room_nr = 0; room_nr < rooms.length; room_nr++) {
 			map_template.drawRoom(rooms[room_nr]);
+		}
+
+		for(var ent_nr = 0; ent_nr < entities.length; ent_nr++) {
+			map_template.drawEntity(entities[ent_nr]);
 		}
 
 		return map_template;
 	},
 	render: function(dungeonMap, target) {
-			var map_table = document.createElement('table');
-			var map_body = document.createElement('tbody');
-			
-			for(var i = 0; i < dungeonMap.terrain.length; i++) {
-				var row = document.createElement('tr');
+		var map_table = document.createElement('table');
+		var map_body = document.createElement('tbody');
+		
+		for(var i = 0; i < dungeonMap.terrain.length; i++) {
+			var row = document.createElement('tr');
 
-				for(var j = 0; j < dungeonMap.terrain[i].length; j++) {
-					var cell = document.createElement('td');
+			for(var j = 0; j < dungeonMap.terrain[i].length; j++) {
+				var cell = document.createElement('td');
 
-					if(dungeonMap.terrain[i][j] === 0) {
-						cell.classList.add('zero');
-					}
-					if(dungeonMap.terrain[i][j] === 1) {
-						cell.classList.add('one');
-					}
-					row.appendChild(cell);
+				if(dungeonMap.terrain[i][j] === dungeonMap.wall) {
+					cell.classList.add('wall');
 				}
-				map_body.appendChild(row);
+				if(dungeonMap.terrain[i][j] === dungeonMap.floor) {
+					cell.classList.add('floor');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.enemy) {
+					cell.classList.add('enemy');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.health) {
+					cell.classList.add('health');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.weapon) {
+					cell.classList.add('weapon');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.nextlvl) {
+					cell.classList.add('nextlvl');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.player) {
+					cell.classList.add('player');
+				}
+				row.appendChild(cell);
 			}
-			map_table.appendChild(map_body);
-			target.appendChild(map_table);
+			map_body.appendChild(row);
+		}
+		map_table.appendChild(map_body);
+		target.appendChild(map_table);
 	}
 };

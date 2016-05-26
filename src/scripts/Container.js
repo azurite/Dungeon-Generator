@@ -17,7 +17,7 @@ Container.prototype.split = function(maxR) {
 			c1 = new Container(
 				this.x, 
 				this.y, 
-				Helper.random(this.width * maxR, (this.width - 1) * (1 - maxR)), 
+				Helper.random(this.width * maxR, this.width * (1 - maxR)), 
 				this.height
 			);
 			c2 = new Container(
@@ -34,7 +34,7 @@ Container.prototype.split = function(maxR) {
 				this.x,
 				this.y,
 				this.width,
-				Helper.random(this.height * maxR, (this.height - 1) * (1 - maxR))
+				Helper.random(this.height * maxR, this.height * (1 - maxR))
 			);
 			c2 = new Container(
 				this.x,
