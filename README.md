@@ -58,7 +58,14 @@ What you do with the data is totally up to you as long as you remember how it is
      player
      ```
      Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and dont coun't as actual entities.
-  2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals
+  2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals.
+  
+  At the moment Each type has the following stats:
+  
+    1. enemy: ```baseHealth health, attack, toNextLevel```
+    2. health: ```heal, xp```
+    3. weapon: ```weaponName damage xp ```
+    4. nextlvl: ```null```
 
 
 This example provides you with a render function that visualizes the map. You can implement your own render function if you wish.
