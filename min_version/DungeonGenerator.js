@@ -1,10 +1,12 @@
 var Dungeon = {
-	LEVEL: 0,
-	healthPack: {
-		heal: 100,
-		xp: 2
-	},
+	LEVEL: 1,
+	attackVariance: 5,
 	weaponTypes: [
+		{
+			weaponName: "Wooden Stick",
+			damage: 4,
+			xp: 0
+		},
 		{
 			weaponName: "Brass Knuckles",
 			damage: 7,
@@ -72,6 +74,7 @@ var Dungeon = {
 		this.weapon = entityIds.weapon;
 		this.nextlvl = entityIds.nextlvl;
 		this.player = entityIds.player;
+		this.boss = entityIds.boss;
 
 		this.roomlist = lists.roomlist;
 		this.corridorlist = lists.corridorlist;
@@ -119,14 +122,17 @@ var Dungeon = {
 			case "enemy":
 				this.type = type;
 				this.stats = {
-					health: 20,
-					attack: 12,
-					xp: 10
+					health: 5 + (Dungeon.LEVEL * 20),
+					attack: 12 + (Dungeon.LEVEL * 5),
+					xp: 10 + (Dungeon.LEVEL * 5)
 				};
 				break;
 			case "health":
 				this.type = type;
-				this.stats = Dungeon.healthPack;
+				this.stats = {
+					heal: Dungeon.Helper.random(30,60) + (Dungeon.LEVEL * 5),
+					xp: 2 + (Dungeon.LEVEL * 2) - 1
+				};
 				break;
 			case "weapon":
 				this.type = type;
@@ -140,15 +146,28 @@ var Dungeon = {
 			case "player":
 				this.type = type;
 				this.stats = {
-					baseHealth: 100,
-					health: 20,
-					attack: 16,
-					toNextLevel: 60
-				}
+					health: 100,
+					weapon: Dungeon.weaponTypes[0],
+					xp: 0,
+					level: 0,
+					toNextLevel: 60 
+				};
 				break;
 			default: console.error("new Entity() Invalid type name: ", type);
 				break;
 		}
+	},
+	Boss: function(room) {
+		this.x = Dungeon.Helper.random(room.x, room.x + room.width - 2);
+		this.y = Dungeon.Helper.random(room.y, room.y + room.height -2);
+		this.width = 2;
+		this.height = 2;
+		this.type = "boss";
+		this.stats = {
+			health: 300,
+			attack: 45,
+			xp: 200
+		};
 	},
 	growTree: function(container, iter) {
 		var root = new Dungeon.Node(container);
@@ -160,8 +179,25 @@ var Dungeon = {
 		return root;
 	},
 	itemPositionIsUnique: function(base, next) {
-		for(var i in base) {
+		for(var i = 0; i < base.length; i++) {
 			if(base[i].x === next.x && base[i].y === next.y) {
+				return false;
+			}
+		}
+		return true;
+	},
+	bossPositionIsUnique: function(base, boss) {
+		for(var i = 0; i < base.length; i++) {
+			if(boss.x === base[i].x && boss.y === base[i].y) {
+				return false;
+			}
+			if((boss.x + boss.width - 1) === base[i].x && boss.y === base[i].y) {
+				return false;
+			}
+			if(boss.x === base[i].x && (boss.y + boss.height - 1) === base[i].y) {
+				return false;
+			}
+			if((boss.x + boss.width - 1) === base[i].x && (boss.y + boss.height - 1) === base[i].y) {
 				return false;
 			}
 		}
@@ -175,6 +211,13 @@ var Dungeon = {
 			} while(!Dungeon.itemPositionIsUnique(list, item));
 			list.push(item);
 		}
+		return list;
+	},
+	createBoss : function(list, room) {
+		do {
+			var boss = new Dungeon.Boss(room);
+		} while(!Dungeon.bossPositionIsUnique(list, boss));
+		list.push(boss);
 		return list;
 	},
 	createDungeon: function(args) {
@@ -225,6 +268,10 @@ var Dungeon = {
 			}
 		}
 
+		if(args.entities.boss !== undefined) {
+			Dungeon.createBoss(entities, rooms[Dungeon.Helper.random(0, rooms.length - 1)]);
+		}
+
 		var map_template = new Dungeon.Map(
 				args.height,
 				args.width,
@@ -240,7 +287,8 @@ var Dungeon = {
 					health: args.entities.health !== undefined ? args.entities.health : null,
 					weapon: args.entities.weapon !== undefined ? args.entities.weapon : null,
 					nextlvl: args.entities.nextlvl !== undefined ? args.entities.nextlvl : null,
-					player: args.entities.player !== undefined ? args.entities.player : null
+					player: args.entities.player !== undefined ? args.entities.player : null,
+					boss: args.entities.boss !== undefined ? args.entities.boss : null
 				}
 			);
 
@@ -288,6 +336,9 @@ var Dungeon = {
 				}
 				if(dungeonMap.terrain[i][j] === dungeonMap.player) {
 					cell.classList.add('player');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.boss) {
+					cell.classList.add('boss');
 				}
 				row.appendChild(cell);
 			}
@@ -379,7 +430,14 @@ Dungeon.Point.prototype.isHorizontalTo = function(refp) {
 };
 
 Dungeon.Map.prototype.drawEntity = function(entity) {
-	if(!(entity instanceof Dungeon.Entity)) {
+	if(entity instanceof Dungeon.Boss) {
+		for(var y = entity.y; y < (entity.y + entity.height); y++) {
+			for(var x = entity.x; x < (entity.x + entity.width); x++) {
+				this.terrain[y][x] = this[entity.type];
+			}
+		}
+	}
+	else if(!(entity instanceof Dungeon.Entity)) {
 		throw new TypeError("Map.drawEntity() argument must be Entity");
 	}
 	else {
