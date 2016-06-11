@@ -1,10 +1,12 @@
 var Dungeon = {
-	LEVEL: 0,
-	healthPack: {
-		heal: 100,
-		xp: 2
-	},
+	LEVEL: 1,
+	attackVariance: 5,
 	weaponTypes: [
+		{
+			weaponName: "Wooden Stick",
+			damage: 4,
+			xp: 0
+		},
 		{
 			weaponName: "Brass Knuckles",
 			damage: 7,
@@ -48,6 +50,23 @@ var Dungeon = {
 		}
 		return true;
 	},
+	bossPositionIsUnique: function(base, boss) {
+		for(var i = 0; i < base.length; i++) {
+			if(boss.x === base[i].x && boss.y === base[i].y) {
+				return false;
+			}
+			if((boss.x + boss.width - 1) === base[i].x && boss.y === base[i].y) {
+				return false;
+			}
+			if(boss.x === base[i].x && (boss.y + boss.height - 1) === base[i].y) {
+				return false;
+			}
+			if((boss.x + boss.width - 1) === base[i].x && (boss.y + boss.height - 1) === base[i].y) {
+				return false;
+			}
+		}
+		return true;
+	},
 	createEntities: function(list, room, type) {
 		var e_max = Helper.random(0,1);
 		for(var i = 0; i < e_max; i++) {
@@ -56,6 +75,13 @@ var Dungeon = {
 			} while(!Dungeon.itemPositionIsUnique(list, item));
 			list.push(item);
 		}
+		return list;
+	},
+	createBoss : function(list, room) {
+		do {
+			var boss = new Boss(room);
+		} while(!Dungeon.bossPositionIsUnique(list, boss));
+		list.push(boss);
 		return list;
 	},
 	createDungeon: function(args) {
@@ -102,8 +128,12 @@ var Dungeon = {
 
 		if(args.entities.health !== undefined) {
 			for(var hi = 0; hi < rooms.length; hi++) {
-				Dungeon.createEntities(entities, rooms[hi], "health");
+				Dungeon.createEntities(entities, rooms[hi], "health")
 			}
+		}
+
+		if(args.entities.boss !== undefined) {
+			Dungeon.createBoss(entities, rooms[Helper.random(0, rooms.length - 1)]);
 		}
 
 		var map_template = new Map(
@@ -121,7 +151,8 @@ var Dungeon = {
 					health: args.entities.health !== undefined ? args.entities.health : null,
 					weapon: args.entities.weapon !== undefined ? args.entities.weapon : null,
 					nextlvl: args.entities.nextlvl !== undefined ? args.entities.nextlvl : null,
-					player: args.entities.player !== undefined ? args.entities.player : null
+					player: args.entities.player !== undefined ? args.entities.player : null,
+					boss: args.entities.boss !== undefined ? args.entities.boss : null
 				}
 			);
 
@@ -169,6 +200,9 @@ var Dungeon = {
 				}
 				if(dungeonMap.terrain[i][j] === dungeonMap.player) {
 					cell.classList.add('player');
+				}
+				if(dungeonMap.terrain[i][j] === dungeonMap.boss) {
+					cell.classList.add('boss');
 				}
 				row.appendChild(cell);
 			}

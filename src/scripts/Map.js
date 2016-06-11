@@ -1,39 +1,47 @@
 var Map = function(rows, cols, lists, entityIds) {
-	this.height = rows;
-	this.width = cols;
-	this.floor = entityIds.floor;
-	this.wall = entityIds.wall;
-	this.enemy = entityIds.enemy;
-	this.health = entityIds.health;
-	this.weapon = entityIds.weapon;
-	this.nextlvl = entityIds.nextlvl;
-	this.player = entityIds.player;
+		this.height = rows;
+		this.width = cols;
+		this.floor = entityIds.floor;
+		this.wall = entityIds.wall;
+		this.enemy = entityIds.enemy;
+		this.health = entityIds.health;
+		this.weapon = entityIds.weapon;
+		this.nextlvl = entityIds.nextlvl;
+		this.player = entityIds.player;
+		this.boss = entityIds.boss;
 
-	this.roomlist = lists.roomlist;
-	this.corridorlist = lists.corridorlist;
-	this.entitylist = lists.entitylist;
-	
-	this.terrain = (function(wall) {
-		var map = [];
-		for(var y = 0; y < rows; y++) {
-			var row = [];
-			for(var x = 0; x < cols; x++) {
-				row.push(wall);
+		this.roomlist = lists.roomlist;
+		this.corridorlist = lists.corridorlist;
+		this.entitylist = lists.entitylist;
+		
+		this.terrain = (function(wall) {
+			var map = [];
+			for(var y = 0; y < rows; y++) {
+				var row = [];
+				for(var x = 0; x < cols; x++) {
+					row.push(wall);
+				}
+				map.push(row);
 			}
-			map.push(row);
-		}
-		return map;
-	}(this.wall));
-}
+			return map;
+		}(this.wall));
+	};
 
 Map.prototype.drawEntity = function(entity) {
-	if(!(entity instanceof Entity)) {
+	if(entity instanceof Boss) {
+		for(var y = entity.y; y < (entity.y + entity.height); y++) {
+			for(var x = entity.x; x < (entity.x + entity.width); x++) {
+				this.terrain[y][x] = this[entity.type];
+			}
+		}
+	}
+	else if(!(entity instanceof Entity)) {
 		throw new TypeError("Map.drawEntity() argument must be Entity");
 	}
 	else {
 		this.terrain[entity.y][entity.x] = this[entity.type];
 	}
-}
+};
 
 Map.prototype.drawCorridor = function(p1, p2) {
 	if(!(p1 instanceof Point) || !(p2 instanceof Point)) {
