@@ -18,14 +18,15 @@ var myDungeon = Dungeon.createDungeon({
     health: 3,
     weapon: 4,
     nextlvl: 5,
-    player: 6
+    player: 6,
+    boss: 7
   }
 });
 ```
 This creates a dungeon map in form of a 2D array with the specified with and height. The number of iterations determines how many times the map get's split. Many iterations equal many small rooms, few iterations equal few big rooms. Try to play with these values to find the optimal dungeon size for you.
 
 The array gets filled with numbers which represent entities like a wall or a floor but also enemies or weapons.
-The wall and floor entity are mandatory. The rest is not requred and you can add "enemy" "health" "nextlvl" and "weapon" entities if you please.
+The wall and floor entity are mandatory. The rest is not requred and you can add "enemy" "health" "nextlvl" "weapon" and "boss" entities if you please.
 
 What you do with the data is totally up to you as long as you remember how it is stored:
 
@@ -62,7 +63,9 @@ These object have properties like:
   
 ##### 2.3 The entitylist property contains an array of all entity objects scatterd on the map. It has the following properties:
 
-1. ```entitiylist[i].type``` determines what type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
+1. ```entitylist[i].x``` and ```entitylist[i].y``` are it's coordinates the boss entity has also a with and height exclusively. 
+
+2. ```entitiylist[i].type``` determines what type of entity it is and is directly corresponding with the entity types that you defined with ```Dungeon.createDungeon()``` type properties are:
 
   ```
   enemy
@@ -70,18 +73,50 @@ These object have properties like:
   weapon
   nextlvl
   player
+  boss
+  ```
+3. Each entity object has also a second property called ```stats``` where you can access for example the attack values of enemies or the type of weapon you picked up.
+  
+  At the moment each entity type has the following stats:
+  
+  ``` 
+  enemy.stats = {
+    health: [number],
+    attack : [number],
+    xp: [number]
+  };
+  
+  health.stats = {
+    heal: [number],
+    xp: [number]
+  };
+  
+  weapon.stats = {
+    weaponName: [string],
+    attack: [number],
+    xp: [number]
+  };
+  
+  nextlvl.stats = null;
+  
+  player.stats = {
+    health: [number],
+    weapon: [weapon.stats],
+    xp: [number],
+    level: [number],
+    toNextLevel: [number]
+  };
+  
+  boss.stats = {
+    health: [number],
+    attack: [number],
+    xp: [number]
+  };
   ```
  
   Remember that although wall and floor are defined within the entities object in the constructor function they cant be accessed via the entitylist and don't count as actual entities.
-
-2. ``` entitylist[i].stats``` from there you can access the stats from your entity like the health and attack damage from an emeny or the type of weapon that you picked up and how much damage it deals.
-
-At the moment Each type has the following stats:
-
-  1. enemy: baseHealth, health, attack, toNextLevel
-  2. health: heal, xp
-  3. weapon: weaponName, damage, xp
-  4. nextlvl: null
+  
+If you're interested in the types of weapons you can access and array with weapon objects under ```Dungeon.weaponTypes```
 
 
 The Module provides you with a render function that visualizes the map. Remember to include the dungeonStyle.css or the prebuilt render function wont display the map correctly. You can implement your own render function if you wish. It is even recommended as the custom one does a pretty minimal job visually and was only intended for testing purposes.
@@ -92,4 +127,4 @@ Dungeon.render(Mymap, document.getElementById("map"));
 
 If you wan't to make your own render function keep in mind that you can access the entity numbers that you have defined in the constructor via ```myMap.floor, myMap.wall``` etc. You can also access the height and with of the entire map via ```myMap.height, myMap.width```
 
-The algorithm is still a work in progress and updates will be added from time to time. Including a more thorough documentation.
+The algorithm is still a work in progress and updates will be added from time to time.
